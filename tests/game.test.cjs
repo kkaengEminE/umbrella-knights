@@ -23,3 +23,5 @@ run('p.hp=1;p.inv=0;p.dash=0;p.block=false;hurt(50,p.x+20)');assert.equal(g.stat
 run('p.hp=33;save()');key('e','KeyE');run('p.hp=62;save()');run('healAll();load()');assert.equal(g.state.hp[0],33);assert.equal(g.state.hp[1],62);
 click('backTitle');assert.equal(g.mode,'start');click('settings');assert.equal(g.mode,'settings');assert.ok(el('#overlay').innerHTML.includes('홍아'));click('',{settingsTab:'story'});assert.ok(el('#overlay').innerHTML.includes('이름을 잊게 하는 비'));click('closeSettings');assert.equal(g.mode,'start');click('exitGame');assert.equal(g.mode,'exited');click('backTitle');click('startChoice');click('sessionResume');assert.equal(g.mode,'play');run('draw()');
 console.log('PASS: independent HP, Q/E wrapping, fallen-member skipping, party wipe/retry, HP persistence, paused weather, title/settings/story/exit.');
+
+click("newGame");run("p.x=1800;state.hp=[0,0,1];state.hero=2;p.inv=0;hurt(50,p.x+10)");tick();assert.equal(g.mode,"dead","party wipe beyond town exit coordinate stays game over");
