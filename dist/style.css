@@ -3,3 +3,19 @@
 .miniHP{height:4px;display:block;background:#07191f;margin:7px 0 4px}.miniHP i{height:100%;display:block;transition:width .2s}.hero{min-width:113px}.mainMenu{display:flex;justify-content:center;gap:8px;margin:20px 0}.mainMenu button{min-width:120px}.menuTrio{display:flex;justify-content:center;gap:40px;margin:24px 0}.menuTrio span{font-size:24px}.menuTrio small{display:block;font-size:11px;margin-top:7px}.menuNote{font-size:11px!important}.settingsBody{max-height:300px;overflow:auto;text-align:left;padding:8px 14px;margin-top:15px;scrollbar-color:#71908c #12262b}.settingsBody h3{color:#e6e4cc;font-size:19px}.settingsBody p{font-size:12px}.settingsBody blockquote{color:#c9c8a5;margin:12px 0;font-size:13px}.bio{display:flex;gap:20px;border-bottom:1px solid #425957;padding:18px 0}.bio img{width:110px;height:160px;object-fit:contain;position:sticky;top:0}.bio small{color:var(--hero);font-size:10px}.bio h3{color:var(--hero);margin:5px 0}.bio h3 span{font-size:12px;font-weight:400;margin-left:9px}.bio p{line-height:1.8;margin:7px 0}.bio blockquote{color:var(--hero)}@media(max-width:800px){.hero{min-width:70px}.hero small{font-size:8px}.mainMenu button{min-width:70px}.settingsBody{max-height:200px}.bio{gap:10px}.bio img{width:60px;height:100px}.menuTrio{gap:20px}}
 .panel:has(.settingsBody){display:flex;flex-direction:column;overflow:hidden;max-height:95%}.panel:has(.settingsBody)>*{flex-shrink:0}.panel:has(.settingsBody) .settingsBody{flex:1 1 auto;min-height:60px;max-height:310px;overflow:auto}.panel:has(.settingsBody)>h2{margin:4px 0 9px}.panel:has(.settingsBody)>#closeSettings{align-self:center;margin-top:12px}@media(max-width:800px){nav button{font-size:10px;padding:7px}.panel:has(.settingsBody){padding:12px}.panel:has(.settingsBody) .eyebrow{display:none}.panel:has(.settingsBody) .tabs button{padding:6px;margin:3px}.panel:has(.settingsBody)>#closeSettings{padding:7px;margin:5px}.panel:has(.settingsBody) .settingsBody{margin-top:4px}}
 @media(max-width:800px){.hero{height:55px;padding:4px 6px;min-width:74px}.hero b{font-size:10px;margin-top:2px}.hero small{font-size:7px}.miniHP{height:3px;margin:4px 0 1px}.bottomHud{bottom:2%}.party{gap:5px}}
+
+/* Approved character artwork: full design sheets in the archive, portrait crop in dialogue. */
+.panel:has(.settingsBody){width:min(1050px,96%)}
+.bio{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:start;gap:24px}
+.characterArt{position:sticky;top:0}
+.bio .characterArt img{display:block;position:static;width:100%;height:auto;object-fit:contain;border-radius:6px}
+.characterArt a{display:inline-block;color:#c6d7cc;font-size:11px;margin-top:8px}
+.illustratedPortrait{background-repeat:no-repeat;background-size:430% auto;background-position:70% 4%;border:1px solid #89978b;border-radius:8px;box-shadow:0 8px 24px #0006}
+.illustratedPortrait.player{position:absolute;left:3%;bottom:10%;width:19%;aspect-ratio:1.08}
+.speech.player{left:24%;width:72%}
+@media(max-width:700px){.bio{grid-template-columns:1fr;gap:12px}.characterArt{position:static}.speech{padding:10px;font-size:11px}.illustratedPortrait.player{bottom:15%}.speech.player{bottom:8%;max-height:48%;overflow:auto}}
+#overlay:has(.settingsBody){position:fixed;inset:0;z-index:20;padding:20px}
+.panel:has(.settingsBody){height:min(850px,92dvh);max-height:92dvh;display:flex;flex-direction:column}
+.panel:has(.settingsBody)>.settingsBody{max-height:none;min-height:0;flex:1}
+.panel:has(.settingsBody)>h2,.panel:has(.settingsBody)>.tabs,.panel:has(.settingsBody)>button{flex-shrink:0}
+@media(max-width:800px){.bio{grid-template-columns:1fr}.characterArt{position:static}}

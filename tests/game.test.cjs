@@ -2,7 +2,7 @@ const vm=require('node:vm'),fs=require('node:fs'),assert=require('node:assert/st
 const elements=new Map(),handlers={},storage=new Map();const noop=()=>{};
 const context=new Proxy({createLinearGradient:()=>({addColorStop:noop}),createRadialGradient:()=>({addColorStop:noop})},{get:(o,k)=>o[k]||noop,set:(o,k,v)=>(o[k]=v,true)});
 function el(s){if(!elements.has(s))elements.set(s,{style:{},textContent:'',innerHTML:'',focus:noop,getContext:()=>context});return elements.get(s)}
-const sandbox={console,Math,document:{querySelector:el,addEventListener:(n,f)=>handlers[n]=f},window:{addEventListener:(n,f)=>handlers[n]=f},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},requestAnimationFrame:noop};vm.createContext(sandbox);vm.runInContext(fs.readFileSync('dist/game.js','utf8'),sandbox);const run=s=>vm.runInContext(s,sandbox),g=sandbox.window.umbrellaGame;
+const sandbox={console,Math,Image:class {constructor(){this.complete=true;this.naturalWidth=1881}},document:{querySelector:el,addEventListener:(n,f)=>handlers[n]=f},window:{addEventListener:(n,f)=>handlers[n]=f},localStorage:{getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)},requestAnimationFrame:noop};vm.createContext(sandbox);vm.runInContext(fs.readFileSync('dist/game.js','utf8'),sandbox);const run=s=>vm.runInContext(s,sandbox),g=sandbox.window.umbrellaGame;
 function click(id,dataset={}){handlers.click({target:{closest:()=>({id,dataset})}})}function key(key,code){handlers.keydown({key,code,preventDefault:noop})}function tick(n=1){for(let i=0;i<n;i++)g.update(.016)}
 click('newGame');assert.equal(g.mode,'play');
 key(' ','Space');assert.equal(g.player.jumps,1);key(' ','Space');assert.equal(g.player.jumps,2);key(' ','Space');assert.equal(g.player.jumps,2);tick(120);assert.equal(g.player.jumps,0);
@@ -25,3 +25,13 @@ click('backTitle');assert.equal(g.mode,'start');click('settings');assert.equal(g
 console.log('PASS: independent HP, Q/E wrapping, fallen-member skipping, party wipe/retry, HP persistence, paused weather, title/settings/story/exit.');
 
 click("newGame");run("p.x=1800;state.hp=[0,0,1];state.hero=2;p.inv=0;hurt(50,p.x+10)");tick();assert.equal(g.mode,"dead","party wipe beyond town exit coordinate stays game over");
+
+run('partySprite.complete=false;draw();partySprite.complete=true;draw()');
+click('settings');
+for(const name of ['seol','muyeong','honga']) assert.ok(el('#overlay').innerHTML.includes(name+'-character-sheet-v1.png'));
+click('',{settingsTab:'story'});
+assert.ok(el('#overlay').innerHTML.includes('마지막 구멍'));
+assert.ok(el('#overlay').innerHTML.includes('첫종'));
+run("dialogue('기록지기 루','기억을 찾아 줘.','함께 찾을게요.',()=>{})");
+assert.ok(el('#dialogue').innerHTML.includes('illustratedPortrait player'));
+console.log('PASS: approved art in archive/dialogue, sprite loading fallback, world and repair story.');
