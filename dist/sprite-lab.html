@@ -1,0 +1,39 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>세 우산 기사단 · 픽셀 제작실</title>
+<style>
+*{box-sizing:border-box}body{background:#0e1723;color:#e8edf4;font:16px system-ui;margin:0;padding:32px;max-width:1100px;margin:auto}h1{font-size:28px}p{color:#a8b7cb;line-height:1.7}.badge{color:#8bd4f5;font-size:12px;letter-spacing:2px}.layout{display:grid;grid-template-columns:1fr 280px;gap:24px}canvas{width:100%;image-rendering:pixelated;border:1px solid #35445a;background:#1b2739}button,a,select{display:inline-block;background:#283c56;color:#eff8ff;border:1px solid #56718c;border-radius:5px;padding:10px;margin:4px;font:inherit}label{display:block;margin:20px 0}input{width:100%}small{color:#adbdd1}.note{border-left:3px solid #8bd4f5;padding-left:16px}.sheet{width:100%;image-rendering:pixelated;background:repeating-conic-gradient(#28364a 0 25%,#344359 0 50%) 0/20px 20px}details{margin:20px 0}#status{font-family:monospace}@media(max-width:900px){body{padding:16px}.layout{grid-template-columns:1fr}}
+</style>
+<p class="badge">SPRITE WORKSHOP / PROTOTYPE 01</p><h1>세 우산 기사단 · 픽셀 동작 제작실</h1>
+<p>대기 2프레임 · 달리기 4프레임 · 약공격 3프레임. 세 동료의 강공격·점프·대시·피격·스킬 9종과 궤적. 각 원화의 PIXEL STUDY 복장을 기준으로 제작한 시안입니다.</p>
+<div class="layout"><section><canvas id="preview" width="640" height="384"></canvas><p id="status"></p></section><aside>
+<label>캐릭터 <select id="character"><option value="0">설 · 얼음</option><option value="1">무영 · 그림자</option><option value="2">홍아 · 가시</option></select></label>
+<label>동작 <select id="action"><option value="idle">대기</option><option value="run">달리기</option><option value="light">약공격 J</option><option value="heavy">강공격 K</option><option value="jump">점프 / 하강</option><option value="dash">대시</option><option value="hurt">피격</option><option value="block">방어 U</option><option value="block_hit">방어 성공</option><option value="down">탈진</option><option value="skill0">서리 베기 L</option><option value="skill1">빙결 파동</option><option value="skill2">빙하의 심장</option></select></label>
+<button id="toggle">일시정지</button><button id="restart">처음부터</button><button id="step">한 프레임</button><button id="flip">좌우 반전</button>
+<label>재생 속도 <input id="speed" type="range" min=".25" max="1.5" value="1" step=".25"><output id="rate">1×</output></label>
+<label><input id="guides" type="checkbox" checked style="width:auto"> 발 기준선 · 타격 구간 표시</label>
+<a href="./?pixel=1" target="_blank">게임에서 시험 ↗</a>
+</aside></div>
+<p class="note">세 동료의 기본 동작과 강공격·점프·대시·피격·각자 스킬 3종을 확인합니다. 파란 구간은 타격/발동 시점입니다. 게임의 스킬은 기존 레벨·해금·쿨타임 규칙을 따릅니다. 방어·방어 성공·탈진 자세도 선택할 수 있습니다. 게임 테스트의 배경과 잔향·보스는 픽셀 타일/도형으로 표시됩니다.</p>
+<details><summary>원화 PIXEL STUDY 기반 · 9프레임 시트</summary><img class="sheet" src="assets/pixel/seol-study-v2.png" alt="설 원화 복장을 반영한 대기 2, 달리기 4, 약공격 3프레임"><a href="assets/pixel/seol-study-v2.png" download>PNG 내려받기</a></details>
+<details><summary>추가 동작 · 공용 자세 9장</summary><img class="sheet" src="assets/pixel/seol-actions-v3.png" alt="설 강공격 점프 대시 피격 스킬 시전 자세"></details>
+<details><summary>무영 · 동작 시트</summary><img class="sheet" src="assets/pixel/muyeong-actions.png" alt="무영 픽셀 동작 18자세"></details><details><summary>홍아 · 동작 시트</summary><img class="sheet" src="assets/pixel/honga-actions.png" alt="홍아 픽셀 동작 18자세"></details>
+<a href="assets/pixel/animation-plan.json" download>전체 동작 제작 명세 JSON</a>
+<script src="pixel-animation.js?v=release11"></script><script>
+const canvas=document.querySelector('#preview'),ctx=canvas.getContext('2d'),q=s=>document.querySelector(s);let action='idle',elapsed=0,playing=true,face=1,last=0,hero=0,actor=PartyPixel.forHero(0);
+q('#character').onchange=e=>{hero=Number(e.target.value);actor=PartyPixel.forHero(hero);elapsed=0;const labels=[['서리 베기','빙결 파동','빙하의 심장'],['그림자 일섬','밤의 장막','월식'],['가시 덩굴','장미의 방패','가시 정원']][hero];for(let i=0;i<3;i++)q('#action option[value="skill'+i+'"]').textContent=labels[i]};
+q('#action').onchange=e=>{action=e.target.value;elapsed=0};q('#toggle').onclick=()=>{playing=!playing;q('#toggle').textContent=playing?'일시정지':'재생'};
+q('#restart').onclick=()=>elapsed=0;q('#flip').onclick=()=>face*=-1;
+q('#step').onclick=()=>{playing=false;q('#toggle').textContent='재생';const clip=actor.clips[action],i=actor.frameAt(clip,elapsed);elapsed=clip.durations.slice(0,(i+1)%clip.frames.length).reduce((a,b)=>a+b,0)/1000};
+q('#speed').oninput=e=>q('#rate').textContent=e.target.value+'×';
+function tick(now){let dt=Math.min(.05,(now-last)/1000||0);last=now;if(playing)elapsed+=dt*Number(q('#speed').value);const clip=actor.clips[action],total=clip.durations.reduce((a,b)=>a+b,0)/1000;if(playing&&!clip.loop&&elapsed>total+1)elapsed=0;const i=actor.frameAt(clip,elapsed),active=clip.active?.includes(i);
+ctx.clearRect(0,0,640,384);ctx.fillStyle='#253749';for(let x=0;x<640;x+=32)for(let y=0;y<384;y+=32)if((x+y)/32%2===0)ctx.fillRect(x,y,32,32);
+if(q('#guides').checked){ctx.fillStyle=active?'#67d9f455':'#95b0c822';ctx.fillRect(320,166,150,90);ctx.fillStyle='#9cbed3';ctx.fillRect(0,300,640,1);ctx.fillRect(320,84,1,240)}
+
+const position=t=>({x:action==='dash'?270+Math.min(t/.23,1)*100*face:320,y:action==='jump'?300-Math.sin(Math.min(t/.36,1)*Math.PI)*95:300});
+const at=position(elapsed),animTime=action==='jump'?(elapsed<.18?0:.2):elapsed;
+if(['dash','jump'].includes(action)&&elapsed<.8){for(let j=3;j>0;j--){let earlier=elapsed-j*.04;if(earlier<0)continue;const prev=position(earlier);ctx.save();ctx.globalAlpha=(4-j)*.09;actor.draw(ctx,action,animTime,prev.x,prev.y,face,1.5);ctx.restore()}}
+actor.draw(ctx,action,animTime,at.x,at.y,face,1.5);
+actor.fx(ctx,action,elapsed,at.x,at.y,face,1.5);
+q('#status').textContent=PartyPixel.characters[hero]+' · '+action.toUpperCase()+' · '+(i+1)+' / '+clip.frames.length+' · '+(active?'타격':'대기 / 준비 / 회복');
+requestAnimationFrame(tick)}requestAnimationFrame(tick);
+</script></html>

@@ -1,0 +1,3 @@
+Built-in image generation, transparent alpha. References: approved muyeong/honga character-sheet-v1.png PIXEL STUDY.
+Each atlas: 6 columns x 3 rows, 18 poses. Row1 idle A/B, four running phases. Row2 light windup/extension/recovery and heavy windup/downward finish/recovery. Row3 rising/falling jump, low dash, backward hurt, ground plant cast, raised open umbrella cast.
+Maintain original costume: Muyeong black long coat, crescent clasp and umbrella handle, dark hair. Honga auburn hair/red ribbon, crimson torn cape with ivory X stitches, repair belt, torn red umbrella with exposed ribs. Same compact pixel-study proportions and scale. No baked-in effects; spells/trails rendered separately.

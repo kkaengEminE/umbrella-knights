@@ -1,0 +1,677 @@
+{
+  "version": 2,
+  "frameIndices": "zero-based",
+  "units": "logical pixels and milliseconds",
+  "baseCell": [
+    128,
+    128
+  ],
+  "pivot": [
+    64,
+    100
+  ],
+  "characterHeight": 64,
+  "renderScale": "integer, nearest-neighbor",
+  "direction": "right; mirror at pivot for left",
+  "collision": {
+    "hurtbox": [
+      -12,
+      -58,
+      24,
+      58
+    ],
+    "lightHitbox": [
+      12,
+      -48,
+      44,
+      30
+    ],
+    "heavyHitbox": [
+      8,
+      -62,
+      64,
+      54
+    ],
+    "note": "local to foot pivot; proposals not production balance; animation art never defines collision"
+  },
+  "actions": [
+    {
+      "id": "idle",
+      "frames": 2,
+      "durationsMs": [
+        450,
+        450
+      ],
+      "loop": true,
+      "activeFrames": [],
+      "notes": "호흡과 옷자락; 무게중심 고정; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "prototype"
+    },
+    {
+      "id": "run",
+      "frames": 4,
+      "durationsMs": [
+        140,
+        140,
+        140,
+        140
+      ],
+      "loop": true,
+      "activeFrames": [],
+      "notes": "접지·압축·통과·비행·반대 접지; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "prototype"
+    },
+    {
+      "id": "jump_start",
+      "frames": 1,
+      "durationsMs": [
+        105
+      ],
+      "loop": false,
+      "activeFrames": [
+        0
+      ],
+      "notes": "도약 이벤트는 마지막 준비 프레임; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "planned"
+    },
+    {
+      "id": "jump_rise",
+      "frames": 1,
+      "durationsMs": [
+        200
+      ],
+      "loop": true,
+      "activeFrames": [],
+      "notes": "상승 자세; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "prototype"
+    },
+    {
+      "id": "jump_fall",
+      "frames": 1,
+      "durationsMs": [
+        200
+      ],
+      "loop": true,
+      "activeFrames": [],
+      "notes": "하강 자세; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "prototype"
+    },
+    {
+      "id": "double_jump",
+      "frames": 2,
+      "durationsMs": [
+        112,
+        113
+      ],
+      "loop": false,
+      "activeFrames": [
+        1
+      ],
+      "notes": "두 번째 도약; 남은 점프 수와 연결; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "planned"
+    },
+    {
+      "id": "land",
+      "frames": 1,
+      "durationsMs": [
+        120
+      ],
+      "loop": false,
+      "activeFrames": [],
+      "notes": "착지 충격; 입력이 있으면 이동으로 취소; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "planned"
+    },
+    {
+      "id": "dash",
+      "frames": 2,
+      "durationsMs": [
+        114,
+        114
+      ],
+      "loop": false,
+      "activeFrames": [
+        0,
+        1
+      ],
+      "notes": "이동량은 물리; 원화에 이동을 굽지 않음; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "prototype"
+    },
+    {
+      "id": "light",
+      "frames": 3,
+      "durationsMs": [
+        85,
+        110,
+        85
+      ],
+      "loop": false,
+      "activeFrames": [
+        1
+      ],
+      "notes": "빠른 수평 베기; 대상당 1회; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "prototype"
+    },
+    {
+      "id": "heavy",
+      "frames": 3,
+      "durationsMs": [
+        200,
+        160,
+        190
+      ],
+      "loop": false,
+      "activeFrames": [
+        1
+      ],
+      "notes": "큰 준비·내려베기·긴 회복; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "prototype"
+    },
+    {
+      "id": "air_light",
+      "frames": 3,
+      "durationsMs": [
+        90,
+        90,
+        90
+      ],
+      "loop": false,
+      "activeFrames": [
+        1
+      ],
+      "notes": "공중 수평 베기; 착지 시 지상 회복으로; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "planned"
+    },
+    {
+      "id": "air_heavy",
+      "frames": 4,
+      "durationsMs": [
+        120,
+        120,
+        120,
+        120
+      ],
+      "loop": false,
+      "activeFrames": [
+        2
+      ],
+      "notes": "하강 베기; 낙하 속도 상한 필요; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "planned"
+    },
+    {
+      "id": "block_start",
+      "frames": 1,
+      "durationsMs": [
+        120
+      ],
+      "loop": false,
+      "activeFrames": [],
+      "notes": "방어 판정은 첫 프레임부터; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "planned"
+    },
+    {
+      "id": "block_hold",
+      "frames": 1,
+      "durationsMs": [
+        300
+      ],
+      "loop": true,
+      "activeFrames": [],
+      "notes": "누르는 동안 반복; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "planned"
+    },
+    {
+      "id": "block_end",
+      "frames": 1,
+      "durationsMs": [
+        120
+      ],
+      "loop": false,
+      "activeFrames": [],
+      "notes": "버튼 해제 즉시 방어 해제; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "planned"
+    },
+    {
+      "id": "block_hit",
+      "frames": 1,
+      "durationsMs": [
+        135
+      ],
+      "loop": false,
+      "activeFrames": [],
+      "notes": "방어 성공 반동; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "planned"
+    },
+    {
+      "id": "hurt",
+      "frames": 2,
+      "durationsMs": [
+        140,
+        140
+      ],
+      "loop": false,
+      "activeFrames": [],
+      "notes": "피격 반동; 공격·시전 취소; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "prototype"
+    },
+    {
+      "id": "down",
+      "frames": 3,
+      "durationsMs": [
+        266,
+        266,
+        268
+      ],
+      "loop": false,
+      "activeFrames": [],
+      "notes": "끝 프레임 유지; 교대 또는 전멸; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "planned"
+    },
+    {
+      "id": "umbrella_open",
+      "frames": 2,
+      "durationsMs": [
+        150,
+        150
+      ],
+      "loop": false,
+      "activeFrames": [],
+      "notes": "날씨 전환; 전투 동작이 우선; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "planned"
+    },
+    {
+      "id": "umbrella_close",
+      "frames": 2,
+      "durationsMs": [
+        150,
+        150
+      ],
+      "loop": false,
+      "activeFrames": [],
+      "notes": "날씨 전환; 마지막에 허리에 부착; 최소 프레임 초안, 동일 자세는 재사용",
+      "status": "planned"
+    }
+  ],
+  "skills": [
+    {
+      "hero": "seol",
+      "id": "frost_slash",
+      "name": "서리 베기",
+      "cast": {
+        "frames": 3,
+        "durationsMs": [
+          120,
+          120,
+          120
+        ],
+        "emitFrames": [
+          1
+        ],
+        "pose": "우산을 뽑듯 베기"
+      },
+      "effect": {
+        "id": "ice_blade",
+        "cell": [
+          256,
+          128
+        ],
+        "spawn": 3,
+        "hold": 2,
+        "end": 3,
+        "frameMs": 90,
+        "loopHold": true,
+        "implementation": "procedural pixel-grid effects, shared poses"
+      },
+      "damageRule": "전방 투사체, 대상당 1회",
+      "status": "prototype"
+    },
+    {
+      "hero": "seol",
+      "id": "freeze_wave",
+      "name": "빙결 파동",
+      "cast": {
+        "frames": 3,
+        "durationsMs": [
+          180,
+          150,
+          150
+        ],
+        "emitFrames": [
+          1
+        ],
+        "pose": "우산 끝을 지면에 찍기"
+      },
+      "effect": {
+        "id": "ice_wave",
+        "cell": [
+          256,
+          128
+        ],
+        "spawn": 3,
+        "hold": 2,
+        "end": 3,
+        "frameMs": 90,
+        "loopHold": true,
+        "implementation": "procedural pixel-grid effects, shared poses"
+      },
+      "damageRule": "지면 확산, 대상당 1회, 둔화",
+      "status": "prototype"
+    },
+    {
+      "hero": "seol",
+      "id": "glacier_heart",
+      "name": "빙하의 심장",
+      "cast": {
+        "frames": 3,
+        "durationsMs": [
+          240,
+          180,
+          180
+        ],
+        "emitFrames": [
+          1
+        ],
+        "pose": "우산을 펼쳐 들어 올리기"
+      },
+      "effect": {
+        "id": "crystal_burst",
+        "cell": [
+          256,
+          256
+        ],
+        "spawn": 3,
+        "hold": 2,
+        "end": 3,
+        "frameMs": 90,
+        "loopHold": true,
+        "implementation": "procedural pixel-grid effects, shared poses"
+      },
+      "damageRule": "원형 범위, 대상당 1회",
+      "status": "prototype"
+    },
+    {
+      "hero": "muyeong",
+      "id": "shadow_slash",
+      "name": "그림자 일섬",
+      "cast": {
+        "frames": 3,
+        "durationsMs": [
+          120,
+          120,
+          120
+        ],
+        "emitFrames": [
+          1
+        ],
+        "pose": "몸 낮추기·일섬"
+      },
+      "effect": {
+        "id": "shadow_cut",
+        "cell": [
+          256,
+          256
+        ],
+        "spawn": 3,
+        "hold": 2,
+        "end": 3,
+        "frameMs": 90,
+        "loopHold": true,
+        "implementation": "procedural pixel-grid effects, shared poses"
+      },
+      "damageRule": "전방, 대상당 1회",
+      "status": "prototype"
+    },
+    {
+      "hero": "muyeong",
+      "id": "night_veil",
+      "name": "밤의 장막",
+      "cast": {
+        "frames": 3,
+        "durationsMs": [
+          180,
+          150,
+          150
+        ],
+        "emitFrames": [
+          1
+        ],
+        "pose": "우산을 앞으로 돌리기"
+      },
+      "effect": {
+        "id": "black_mist",
+        "cell": [
+          256,
+          256
+        ],
+        "spawn": 3,
+        "hold": 2,
+        "end": 3,
+        "frameMs": 90,
+        "loopHold": true,
+        "implementation": "procedural pixel-grid effects, shared poses"
+      },
+      "damageRule": "장막 지속, 회피/방어 수치는 밸런스 단계 결정",
+      "status": "prototype"
+    },
+    {
+      "hero": "muyeong",
+      "id": "eclipse",
+      "name": "월식",
+      "cast": {
+        "frames": 3,
+        "durationsMs": [
+          240,
+          180,
+          180
+        ],
+        "emitFrames": [
+          1
+        ],
+        "pose": "원을 그리며 베기"
+      },
+      "effect": {
+        "id": "eclipse_ring",
+        "cell": [
+          256,
+          256
+        ],
+        "spawn": 3,
+        "hold": 2,
+        "end": 3,
+        "frameMs": 90,
+        "loopHold": true,
+        "implementation": "procedural pixel-grid effects, shared poses"
+      },
+      "damageRule": "원형 수축 후 폭발, 대상당 1회",
+      "status": "prototype"
+    },
+    {
+      "hero": "honga",
+      "id": "thorn_vine",
+      "name": "가시 덩굴",
+      "cast": {
+        "frames": 3,
+        "durationsMs": [
+          120,
+          120,
+          120
+        ],
+        "emitFrames": [
+          1
+        ],
+        "pose": "우산 끝으로 땅 찌르기"
+      },
+      "effect": {
+        "id": "thorn_line",
+        "cell": [
+          256,
+          128
+        ],
+        "spawn": 3,
+        "hold": 2,
+        "end": 3,
+        "frameMs": 90,
+        "loopHold": true,
+        "implementation": "procedural pixel-grid effects, shared poses"
+      },
+      "damageRule": "지면 순차 생성, 다중 가시 중복 피해 금지",
+      "status": "prototype"
+    },
+    {
+      "hero": "honga",
+      "id": "rose_guard",
+      "name": "장미의 방패",
+      "cast": {
+        "frames": 3,
+        "durationsMs": [
+          180,
+          150,
+          150
+        ],
+        "emitFrames": [
+          1
+        ],
+        "pose": "우산 펴서 몸 앞에 고정"
+      },
+      "effect": {
+        "id": "rose_shield",
+        "cell": [
+          256,
+          256
+        ],
+        "spawn": 3,
+        "hold": 2,
+        "end": 3,
+        "frameMs": 90,
+        "loopHold": true,
+        "implementation": "procedural pixel-grid effects, shared poses"
+      },
+      "damageRule": "방어막, 유지 반복은 실제 지속시간과 동기화",
+      "status": "prototype"
+    },
+    {
+      "hero": "honga",
+      "id": "thorn_garden",
+      "name": "가시 정원",
+      "cast": {
+        "frames": 3,
+        "durationsMs": [
+          240,
+          180,
+          180
+        ],
+        "emitFrames": [
+          1
+        ],
+        "pose": "우산 돌려 땅에 꽂기"
+      },
+      "effect": {
+        "id": "thorn_garden",
+        "cell": [
+          256,
+          256
+        ],
+        "spawn": 3,
+        "hold": 2,
+        "end": 3,
+        "frameMs": 90,
+        "loopHold": true,
+        "implementation": "procedural pixel-grid effects, shared poses"
+      },
+      "damageRule": "범위 발아, 타격 주기 별도 지정",
+      "status": "prototype"
+    }
+  ],
+  "priority": [
+    "down",
+    "hurt",
+    "block_hit",
+    "skill",
+    "attack",
+    "dash",
+    "double_jump",
+    "jump",
+    "land",
+    "block",
+    "run",
+    "idle"
+  ],
+  "events": {
+    "damage": "fire once on entry to active frame, per-target hit set",
+    "cooldown": "start at skill emission; cancelling before emission does not spend cooldown",
+    "pause": "freeze timeline and emission events",
+    "heroSwitch": "cancel pending outgoing damage; new hero enters correct locomotion state",
+    "weather": "queue umbrella transition until current combat animation ends"
+  },
+  "implemented": {
+    "seol": [
+      "idle",
+      "run",
+      "light",
+      "heavy",
+      "jump_rise",
+      "jump_fall",
+      "dash",
+      "hurt",
+      "block",
+      "block_hit",
+      "down"
+    ],
+    "muyeong": [
+      "idle",
+      "run",
+      "light",
+      "heavy",
+      "jump_rise",
+      "jump_fall",
+      "dash",
+      "hurt",
+      "block",
+      "block_hit",
+      "down"
+    ],
+    "honga": [
+      "idle",
+      "run",
+      "light",
+      "heavy",
+      "jump_rise",
+      "jump_fall",
+      "dash",
+      "hurt",
+      "block",
+      "block_hit",
+      "down"
+    ],
+    "skills": [
+      "seol:frost_slash",
+      "seol:freeze_wave",
+      "seol:glacier_heart",
+      "muyeong:shadow_slash",
+      "muyeong:night_veil",
+      "muyeong:eclipse",
+      "honga:thorn_vine",
+      "honga:rose_guard",
+      "honga:thorn_garden"
+    ],
+    "environment": [
+      "layered_forest_prototype",
+      "ground_platform_tiles",
+      "town_gate_props",
+      "rain",
+      "enemy_boss_prototype"
+    ]
+  },
+  "reuse": {
+    "air_light": "지상 약공격 상체와 상승/하강 하체 조합",
+    "block_end": "block_start 역재생",
+    "umbrella_close": "umbrella_open 역재생",
+    "block_hit": "block_hold와 짧은 위치 반동",
+    "hurt": "고유 자세 1장 + 명도 변화; 2단계 재생",
+    "effects": "투사체 위치·크기·알파는 엔진 처리, 이동 거리별 원화 금지"
+  },
+  "budget": {
+    "previousBaseFramesPerHero": 98,
+    "baseTimelineFramesPerHero": 42,
+    "note": "타임라인 슬롯 수; 재사용으로 실제 신규 원화 수는 더 적음. 소스 PNG 크기 감소를 뜻하지 않음."
+  }
+}

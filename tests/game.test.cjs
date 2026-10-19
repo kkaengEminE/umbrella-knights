@@ -28,7 +28,7 @@ click("newGame");run("p.x=1800;state.hp=[0,0,1];state.hero=2;p.inv=0;hurt(50,p.x
 
 run('partySprite.complete=false;draw();partySprite.complete=true;draw()');
 click('settings');
-for(const name of ['seol','muyeong','honga']) assert.ok(el('#overlay').innerHTML.includes(name+'-character-sheet-v1.png'));
+for(const name of ['seol','muyeong','honga']) assert.ok(el('#overlay').innerHTML.includes(name+'-character-sheet-v2.png'));
 click('',{settingsTab:'story'});
 assert.ok(el('#overlay').innerHTML.includes('마지막 구멍'));
 assert.ok(el('#overlay').innerHTML.includes('첫종'));
