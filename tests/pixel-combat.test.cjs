@@ -49,3 +49,5 @@ for(let stage=0;stage<3;stage++){
  run('p.x=3750;update(.016)');assert.equal(run('mode'),'town');assert.ok(run('state.hp.every(v=>v===maxHP())'));run('draw()');
 }
 console.log('PASS: weather transition/pause, movement clock and all three pixel boss-to-village paths.');
+run('state.stage=0;resetStage();mode="play";healAll();p.x=enemies[0].x-70;p.inv=10;enemies[0].wind=.01;update(.02)');assert.ok(run('enemies[0].swing')>0);const ex=run('enemies[0].x');run('update(.05)');assert.equal(run('enemies[0].x'),ex,'attack recovery must not slide');run('draw()');
+console.log('PASS: enemy strike recovery remains stationary.');

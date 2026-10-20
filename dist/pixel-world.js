@@ -1,4 +1,6 @@
 (function(root){
+const enemyAtlas=typeof Image!=='undefined'?new Image():null;
+if(enemyAtlas)enemyAtlas.src='assets/pixel/forest-enemies-v1.png';
 const themes=[['#142536','#254752','#47706b','#829d7a'],['#202338','#39394f','#596272','#b1ad8e'],['#282333','#443449','#6e4a59','#b98e89']];
 function rect(c,x,y,w,h,color){c.fillStyle=color;c.fillRect(Math.round(x/2)*2,Math.round(y/2)*2,Math.ceil(w/2)*2,Math.ceil(h/2)*2)}
 function background(c,W,H,cam,time,stage){
@@ -48,19 +50,25 @@ const body=[
 '...1222222221...',
 '...1111111111...',
 '...11..11..11...'];
-function monster(c,e,cam,time){
+function monster(c,e,cam,time,stage=0){
 if(e.hp<=0)return;let s=e.boss?7:4,x=Math.round(e.x-cam-8*s),y=e.y-14*s;
 const recoil=e.hit>0?-e.face*4:0,wind=e.wind>0?Math.round(e.wind*5):0;x+=recoil;y+=wind;
 const palette=['transparent','#102330',e.hit>0?'#e3f1de':e.boss?'#59646a':['#46646a','#5c6659','#5c586c'][e.type],e.wind>0?'#ff9575':'#e7cd8e'];
 let bob=e.wind>0?0:Math.round(Math.sin(e.phase*4)*2);
-for(let r=0;r<body.length;r++)for(let k=0;k<16;k++){const n=Number(body[r][k]);if(n)rect(c,x+k*s,y+r*s+bob,s,s,palette[n])}
-// Four reused foot positions and three attack phases; no contact hitbox.
-const step=Math.floor(e.phase*8)%4;
-for(let n=0;n<2;n++)rect(c,x+(4+n*6)*s+(step===n?4:0),e.y-5,3*s,5,'#162e38');
-if(!e.boss&&e.type===1){rect(c,x-4,y+5*s,4*s,2*s,'#687e64');rect(c,x+12*s,y+5*s,4*s,2*s,'#687e64')}
-if(!e.boss&&e.type===2){for(let n=0;n<4;n++)rect(c,x+(3+n*3)*s,y-4+n%2*4,2*s,8,'#8a708b')}
-if(e.wind>0){const reach=e.face>0?x+14*s:x-4*s;rect(c,reach,y+7*s,6*s,2*s,'#b68b70')}
-if(e.boss){for(let n=0;n<5;n++)rect(c,x+(3+n*2)*s,y-2*s,s,n%2?3*s:2*s,'#c4ad75');rect(c,x+3*s,y+6*s,10*s,s,'#7d8c8a')}
+const frame=e.wind>0?4:e.swing>0?5:e.moving?2+Math.floor(e.phase*8)%2:Math.floor(e.phase*2)%2;
+if(stage===0&&enemyAtlas&&enemyAtlas.complete&&enemyAtlas.naturalWidth){
+ const factor=e.boss?.45:.34;
+ c.save();c.imageSmoothingEnabled=false;c.translate(Math.round(e.x-cam+recoil),Math.round(e.y+wind));c.scale(e.face||1,1);
+ if(e.hit>0)c.globalAlpha=.65;
+ let sx=frame*256,sw=256,px=128,py=e.boss?424:415;
+ if(e.boss&&frame===4){sx=950;sw=300;px=202;
+ c.beginPath();c.moveTo(-px*factor,-py*factor);c.lineTo((sw-px)*factor,-py*factor);c.lineTo((sw-px)*factor,(512-py)*factor);c.lineTo((74-px)*factor,(512-py)*factor);c.lineTo((74-px)*factor,(170-py)*factor);c.lineTo(-px*factor,(170-py)*factor);c.closePath();c.clip()}
+ if(frame===5){sx=1260;sw=276;px=148}
+ if(!e.boss&&frame===4)sw=240;
+ c.drawImage(enemyAtlas,sx,e.boss?512:0,sw,512,-px*factor,-py*factor,sw*factor,512*factor);c.restore();
+}else{
+ for(let r=0;r<body.length;r++)for(let k=0;k<16;k++){const n=Number(body[r][k]);if(n)rect(c,x+k*s,y+r*s+bob,s,s,palette[n])}
+}
 if(e.wind>0){rect(c,e.x-cam-2,y-20,5,11,'#ffd7a2');rect(c,e.x-cam-2,y-5,5,4,'#ffd7a2');rect(c,e.x-cam+(e.face>0?8:-70),e.y-7,e.boss?110:60,4,'#d88165')}
 if(e.hp<e.max&&!e.boss){rect(c,x,y-10,64,4,'#11232a');rect(c,x,y-10,64*e.hp/e.max,4,'#a6d4b7')}
 if(e.slow>0)for(let i=0;i<4;i++)rect(c,x+i*14,e.y-8-i%2*8,6,12,'#82ddeb');

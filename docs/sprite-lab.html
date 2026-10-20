@@ -18,7 +18,7 @@
 <details><summary>추가 동작 · 공용 자세 9장</summary><img class="sheet" src="assets/pixel/seol-actions-v3.png" alt="설 강공격 점프 대시 피격 스킬 시전 자세"></details>
 <details><summary>무영 · 동작 시트</summary><img class="sheet" src="assets/pixel/muyeong-actions.png" alt="무영 픽셀 동작 18자세"></details><details><summary>홍아 · 동작 시트</summary><img class="sheet" src="assets/pixel/honga-actions.png" alt="홍아 픽셀 동작 18자세"></details>
 <a href="assets/pixel/animation-plan.json" download>전체 동작 제작 명세 JSON</a>
-<script src="pixel-animation.js?v=release11"></script><script>
+<script src="pixel-animation.js?v=forest13"></script><script>
 const canvas=document.querySelector('#preview'),ctx=canvas.getContext('2d'),q=s=>document.querySelector(s);let action='idle',elapsed=0,playing=true,face=1,last=0,hero=0,actor=PartyPixel.forHero(0);
 q('#character').onchange=e=>{hero=Number(e.target.value);actor=PartyPixel.forHero(hero);elapsed=0;const labels=[['서리 베기','빙결 파동','빙하의 심장'],['그림자 일섬','밤의 장막','월식'],['가시 덩굴','장미의 방패','가시 정원']][hero];for(let i=0;i<3;i++)q('#action option[value="skill'+i+'"]').textContent=labels[i]};
 q('#action').onchange=e=>{action=e.target.value;elapsed=0};q('#toggle').onclick=()=>{playing=!playing;q('#toggle').textContent=playing?'일시정지':'재생'};
